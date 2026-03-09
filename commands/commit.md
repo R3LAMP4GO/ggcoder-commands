@@ -2,17 +2,25 @@
 
 Run quality checks, generate an AI commit message, and push. Stop on any errors.
 
-## Step 1: Detect Project Type
+## Step 1: Detect Project Type and Package Manager
 
 Use `find` and `read` to detect the project:
 
 | File Found | Type | Lint Command | Typecheck Command |
 |------------|------|--------------|-------------------|
-| `package.json` | JS/TS | `npm run lint` (if script exists) | `npm run typecheck` or `npx tsc --noEmit` (if TS) |
+| `package.json` | JS/TS | `[PM] run lint` (if script exists) | `[PM] run typecheck` or `npx tsc --noEmit` (if TS) |
 | `pyproject.toml` | Python | `ruff check .` or `pylint src/` | `mypy .` |
 | `go.mod` | Go | `go vet ./...` | N/A (compiled) |
 | `Cargo.toml` | Rust | `cargo clippy -- -D warnings` | N/A (compiled) |
 | `composer.json` | PHP | `./vendor/bin/phpstan analyse` | N/A |
+
+**Detect package manager** (for JS/TS projects):
+- `bun.lockb` or `bun.lock` → use `bun`
+- `pnpm-lock.yaml` → use `pnpm`
+- `yarn.lock` → use `yarn`
+- `package-lock.json` → use `npm`
+
+Replace `[PM]` with the detected package manager in all commands.
 
 Check `package.json` scripts to find the actual lint/typecheck script names — don't assume they're called `lint` and `typecheck`.
 

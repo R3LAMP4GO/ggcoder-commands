@@ -2,9 +2,17 @@
 
 Detect project type, install missing linting/typechecking tools, and configure them.
 
-## Step 1: Detect Project Type
+## Step 1: Detect Project Type and Package Manager
 
 Use `find` and `read` to identify:
+
+**Detect package manager first** (for JS/TS projects):
+- `bun.lockb` or `bun.lock` → use `bun`
+- `pnpm-lock.yaml` → use `pnpm`
+- `yarn.lock` → use `yarn`
+- `package-lock.json` → use `npm`
+
+Replace all install commands below with the detected package manager.
 
 | File | Type | Expected Tools |
 |------|------|----------------|
